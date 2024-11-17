@@ -77,7 +77,7 @@ const SignUp = () => {
 
     return (
         <div className="d-flex  w-100 ">
-            <main className="w-50 m-auto c_form  border border-1 rounded p-2">
+            <main className="w-50 m-auto c_form  border border-1 rounded gap-2 d-flex flex-column p-3">
                 <h1 className="h3 mb-3 fw-normal ">회원가입</h1>
                 <Input ref={idRef} useBtn={true} type={'text'} tagId={'id'} label={'ID'} value={id} onChange={idChange}
                        btnClick={idDupleCheckBtn} btnText={"중복확인"}/>
