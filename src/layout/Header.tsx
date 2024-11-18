@@ -1,10 +1,14 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
+import {LOGIN_PATH, MAIN_PATH} from "../constant";
 
 const Header = () => {
     const navigate = useNavigate();
     const mainPage = () => {
-        navigate('/');
+        navigate(MAIN_PATH());
+    }
+    const goLogin = () => {
+        navigate(LOGIN_PATH());
     }
     return (
         <>
@@ -22,7 +26,7 @@ const Header = () => {
                         <li className="nav-item"><a href="#" className="nav-link">Features</a></li>
                         <li className="nav-item"><a href="#" className="nav-link">Pricing</a></li>
                         <li className="nav-item"><a href="#" className="nav-link">FAQs</a></li>
-                        <li className="nav-item"><a href="/user/login" className="nav-link">Login</a></li>
+                        <li className="nav-item"><div className="nav-link pointer" onClick={goLogin}>Login</div></li>
                     </ul>
                 </header>
             </div>
