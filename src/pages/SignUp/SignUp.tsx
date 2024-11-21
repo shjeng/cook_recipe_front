@@ -2,6 +2,7 @@ import React, {ChangeEvent, useRef, useState} from 'react';
 import Input from "../../component/Input/Input";
 import {idDupleCheck, nickNameDupleCheck, signUp} from "../../apis/sign-up";
 import {useNavigate} from "react-router-dom";
+import {LOGIN_PATH} from "../../constant";
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -47,14 +48,34 @@ const SignUp = () => {
 
     /* 가입 */
     const signUpBtnClick = (event: React.MouseEvent) => {
-        if (id !== dupleCheck) {
+        if (!id) {
+            alert('아이디를 입력해주세요.');
+            idRef.current?.focus();
+            return;
+        }
+        if (!nickName) {
+            alert('닉네임을 입력해주세요.');
+            nickNameRef.current?.focus();
+            return;
+        }
+        if (id !== dupleCheck || !dupleCheck) {
             alert('아이디 중복확인을 해주세요.');
             idRef.current?.focus();
             return;
         }
-        if(nickName !== nickNameCheck){
+        if(nickName !== nickNameCheck || nickNameCheck){
             alert('닉네임 중복확인을 해주세요.');
             nickNameRef.current?.focus();
+            return;
+        }
+        if (!pw) {
+            alert('비밀번호를 입력해주세요.');
+            pwRef.current?.focus();
+            return;
+        }
+        if (!pwCheck) {
+            alert('비밀번호 확인을 입력해주세요.');
+            pwCheckRef.current?.focus();
             return;
         }
         if (pw !== pwCheck) {
@@ -64,19 +85,19 @@ const SignUp = () => {
         }
         const requestBody = {
             id: id,
+            idCheck: dupleCheck,
             password: pw,
             passwordCheck: pwCheck,
-            nickname: nickName
+            nickname: nickName,
+            nicknameCheck: nickNameCheck
         }
         signUp(requestBody).then((res) => {
-            if (res) {
-                navigate(res);
-            }
+            navigate(LOGIN_PATH());
         });
     }
 
     return (
-        <div className="d-flex  w-100 ">
+        <div className="d-flex w-100 flex-grow-1 flex-shrink-0">
             <main className="w-50 m-auto c_form  border border-1 rounded gap-2 d-flex flex-column p-3">
                 <h1 className="h3 mb-3 fw-normal ">회원가입</h1>
                 <Input ref={idRef} useBtn={true} type={'text'} tagId={'id'} label={'ID'} value={id} onChange={idChange}
