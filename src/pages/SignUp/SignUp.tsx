@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useRef, useState} from 'react';
 import Input from "../../component/Input/Input";
-import {idDupleCheck, nickNameDupleCheck, signUp} from "../../apis/sign-up";
+import {idDupleCheck, nickNameDupleCheck, signUp} from "../../apis/user";
 import {useNavigate} from "react-router-dom";
 import {LOGIN_PATH} from "../../constant";
 
@@ -34,7 +34,8 @@ const SignUp = () => {
         nickNameDupleCheck(nickName).then((res) => {
             if (res) {
                 alert('사용가능한 닉네임입니다.');
-                setNickNameCheck(res as string);
+                setNickNameCheck(res.toString() as string);
+                console.log(nickNameCheck);
             }
         });
     }
@@ -63,7 +64,9 @@ const SignUp = () => {
             idRef.current?.focus();
             return;
         }
-        if(nickName !== nickNameCheck || nickNameCheck){
+        if(nickName !== nickNameCheck || !nickNameCheck){
+            console.log('nickName = ', nickName);
+            console.log('nickNameCheck = ', nickNameCheck);
             alert('닉네임 중복확인을 해주세요.');
             nickNameRef.current?.focus();
             return;

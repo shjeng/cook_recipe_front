@@ -1,6 +1,7 @@
 import axios from "axios";
-import SignUpRequestDto from "./request/Sign-up/sign-up-request.dto";
+import SignUpRequestDto from "./request/user/Sign-up/sign-up-request.dto";
 import {LOGIN_PATH} from "../constant";
+import LoginResponseDto from "./response/user/Login/login-response.dto";
 
 const API_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN + "/api";
 
@@ -40,6 +41,18 @@ export const signUp = async (requestDto: SignUpRequestDto) => {
             alert('회원가입이 완료되었습니다.');
             return LOGIN_PATH();
         }, (error) => {
+            return errorResponse(error);
+        });
+}
+
+const LOGIN =() => `${API_DOMAIN}/user/login`;
+export const login = async (id: string, password:string) => {
+    return await axios.post(LOGIN(), { id, password })
+        .then((res) => {
+            console.log(res);
+            return res.data as any;
+        }, (error) => {
+            console.log(error);
             return errorResponse(error);
         });
 }
