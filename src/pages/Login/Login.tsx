@@ -50,7 +50,7 @@ const Login = () => {
             setCookie("accessToken", token, { expires, path: MAIN_PATH()});
             const referer = result.referer;
             if (referer) {
-                navigate(referer);
+                window.location.href = referer;
             } else {
                 navigate(MAIN_PATH());
             }
