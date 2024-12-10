@@ -43,11 +43,16 @@ const Login = () => {
                 return;
             }
             const result = res as LoginResponseDto;
-            const { token, expirationTime } = result;
+            const { accessToken, accessTokenExpiredMs, refreshToken, refreshTokenExpiredMs } = result;
             const now = new Date().getTime();
-            const expires = new Date(now + expirationTime * 1000);
+            const accessTokenExpires = new Date(now + accessTokenExpiredMs);
+            const refreshTokenExpires = new Date(now + refreshTokenExpiredMs);
             // 유효시간 : 현재시간 + 백엔드에서 설정한 시간(60분) * 1000
-            setCookie("accessToken", token, { expires, path: MAIN_PATH()});
+            setCookie("accessToken", accessToken, { expires: accessTokenExpires, path: MAIN_PATH()});
+            setCookie("refreshToken", refreshToken, {
+                expires: refreshTokenExpires, path: MAIN_PATH(), sameSite: "strict", httpOnly: true}
+            );
+
             const referer = result.referer;
             if (referer) {
                 window.location.href = referer;
