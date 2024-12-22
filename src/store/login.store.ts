@@ -12,3 +12,5 @@ const useLoginStore = create<LoginStore>((set) => ({
     setLoginUser: (loginUser: User) => set((state) => ({ ...state, loginUser })),
     resetLoginUser: () => set((state) => ({ ...state, loginUser: null })),
 }));
+
+export default useLoginStore;
