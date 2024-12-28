@@ -2,6 +2,7 @@ import axios from "axios";
 import SignUpRequestDto from "./request/user/Sign-up/sign-up-request.dto";
 import {LOGIN_PATH} from "../constant";
 import {LoginResponseDto} from "./response/user/Login";
+import User from "../types/interface/user.interface";
 
 const API_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN + "/api";
 
@@ -59,7 +60,7 @@ export const login = async (id: string, password: string) => {
 const GET_USER_INFO = () => `${API_DOMAIN}/user/info`;
 export const getUserInfo = async (accessToken: string) => {
     return await axios.get(GET_USER_INFO(),{headers: {Authorization: `Bearer ${accessToken}`}} ).then((res) => {
-        return res.data;
+        return res.data as User;
     }, (error) => {
         console.log(error);
         return errorResponse(error);

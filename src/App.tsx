@@ -25,8 +25,7 @@ function App() {
         if (cookies.accessToken) {
             getUserInfo(cookies.accessToken).then((res) => {
                 if (res) {
-                    console.log()
-                    resetLoginUser();
+                    setLoginUser(res);
                 } else {
                     alert('회원정보를 가져오는대 실패했습니다.');
                 }

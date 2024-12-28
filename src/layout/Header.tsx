@@ -1,8 +1,12 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
 import {LOGIN_PATH, MAIN_PATH} from "../constant";
+import useLoginStore from "../store/login.store";
 
 const Header = () => {
+
+    const {loginUser, setLoginUser, resetLoginUser} = useLoginStore();
+
     const navigate = useNavigate();
     const mainPage = () => {
         navigate(MAIN_PATH());
@@ -26,7 +30,11 @@ const Header = () => {
                         <li className="nav-item"><a href="#" className="nav-link">Features</a></li>
                         <li className="nav-item"><a href="#" className="nav-link">Pricing</a></li>
                         <li className="nav-item"><a href="#" className="nav-link">FAQs</a></li>
-                        <li className="nav-item"><div className="nav-link pointer" onClick={goLogin}>Login</div></li>
+                        {!loginUser &&
+                            <li className="nav-item">
+                                <div className="nav-link pointer" onClick={goLogin}>Login</div>
+                            </li>}
+
                     </ul>
                 </header>
             </div>

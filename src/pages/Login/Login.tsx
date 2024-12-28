@@ -50,7 +50,7 @@ const Login = () => {
             // 유효시간 : 현재시간 + 백엔드에서 설정한 시간(60분) * 1000
             setCookie("accessToken", accessToken, { expires: accessTokenExpires, path: MAIN_PATH()});
             setCookie("refreshToken", refreshToken, {
-                expires: refreshTokenExpires, path: MAIN_PATH(), sameSite: "strict", httpOnly: true}
+                expires: refreshTokenExpires, path: MAIN_PATH(), sameSite: "strict"}
             );
 
             const referer = result.referer;

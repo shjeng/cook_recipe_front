@@ -8,7 +8,6 @@ const API_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN + "/api";
 // 커스텀 훅으로 인터셉터 관리
 export const useAxiosInterceptor = () => {
     const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
-    const [isRetrying, setIsRetrying] = React.useState(false);
     React.useEffect(() => {
         // 요청 인터셉터
         // const requestInterceptor = axios.interceptors.request.use(
@@ -29,33 +28,32 @@ export const useAxiosInterceptor = () => {
             (response) => response,
             async (error) => {
                 const originalRequest = error.config;
-                alert(error.response?.status === 401 && !originalRequest._retry && !isRetrying && error.response?.data.code === 'EJT');
-                if (error.response?.status === 401 && !originalRequest._retry && !isRetrying && error.response?.data.code === 'EJT') {
-                    alert(error.response.data.code);
-                    setIsRetrying(true);
+                if (error.response?.status === 401 && !originalRequest._retry && error.response?.data.code === 'EJT') {
                     originalRequest._retry = true;
 
                     try {
-                        console.log(error.response);
-                        debugger;
                         if (!cookies.refreshToken) {
                             console.log("refreshToken이 없습니다.");
-                            throw new Error('refreshToken이 없습니다.');
+                            return;
                         }
                         const refreshToken = cookies.refreshToken;
                         const response = await axios.post(`${API_DOMAIN}/auth/refresh`, { refreshToken });
 
-                        const { accessToken, refreshToken: newRefreshToken, accessTokenExpiredMs } = response.data;
+                        const { accessToken, refreshToken: newRefreshToken, accessTokenExpiredMs, refreshTokenExpiredMs } = response.data;
 
+                        const now = new Date().getTime();
+                        const accessTokenExpires = new Date(now + accessTokenExpiredMs);
+                        const refreshTokenExpires = new Date(now + refreshTokenExpiredMs);
                         // 새 토큰들 쿠키에 설정
                         setCookie('accessToken', accessToken, {
                             path: '/',
-                            expires: new Date(accessTokenExpiredMs)
+                            expires: accessTokenExpires
                         });
 
                         if (newRefreshToken) {
                             setCookie('refreshToken', newRefreshToken, {
                                 path: '/',
+                                expires: refreshTokenExpires
                                 // 리프레시 토큰 만료 시간 설정
                             });
                         }
