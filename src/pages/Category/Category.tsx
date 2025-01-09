@@ -1,13 +1,35 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Input from "../../component/Input/Input";
+import {getRoleToken} from "../../apis/admin";
+import {useCookies} from "react-cookie";
+import {useNavigate} from "react-router-dom";
+import {MAIN_PATH} from "../../constant";
 
 const Category = () => {
+    const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
     const [category, setCateogry] = useState<string>('');
     const categoryRef = useRef<HTMLInputElement>(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const authCheck = () => {
+            if (!cookies.accessToken) {
+                alert('잘못된 접근입니다.');
+                navigate(MAIN_PATH());
+            }
+            getRoleToken(cookies.accessToken).then(res => {
+
+            });
+        }
+        authCheck();
+    }, []);
 
     const categoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCateogry(event.target.value);
     }
+
+
+
     const submitBtnclick = () => {
 
     }

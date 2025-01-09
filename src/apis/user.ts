@@ -1,10 +1,9 @@
 import axios from "axios";
 import SignUpRequestDto from "./request/user/Sign-up/sign-up-request.dto";
-import {LOGIN_PATH} from "../constant";
+import {LOGIN_PATH, API_DOMAIN} from "../constant";
 import {LoginResponseDto} from "./response/user/Login";
 import User from "../types/interface/user.interface";
 
-const API_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN + "/api";
 
 const ID_DUPLE_CHECK = () => `${API_DOMAIN}/user/sign-up/id-check`;
 export const idDupleCheck = async (id: string) => {

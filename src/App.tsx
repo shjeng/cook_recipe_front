@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import {Route, Routes} from "react-router-dom";
-import {CATEGORY_PATH, LOGIN_PATH, MAIN_PATH, SIGNUP_PATH, TEST_PATH} from "./constant";
+import {ADMIN_CATEGORY_LIST_PATH, LOGIN_PATH, MAIN_PATH, SIGNUP_PATH, TEST_PATH} from "./constant";
 import Main from "./pages/Main/Main";
 import MainContent from "./layout/MainContent";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -36,6 +36,7 @@ function App() {
 
     }, [cookies.accessToken]);
 
+    // App.tsx
     return (
         <>
             <CookiesProvider>
@@ -45,7 +46,7 @@ function App() {
                         <Route path={SIGNUP_PATH()} element={<SignUp/>}/>
                         <Route path={LOGIN_PATH()} element={<Login/>}/>
                         <Route path={TEST_PATH()} element={<Test/>}/>
-                        <Route path={CATEGORY_PATH()} element={<Category/>}/>
+                        <Route path={ADMIN_CATEGORY_LIST_PATH()} element={<Category/>}/>
                     </Route>
                 </Routes>
             </CookiesProvider>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
-import {LOGIN_PATH, MAIN_PATH} from "../constant";
+import {ADMIN_CATEGORY_LIST_PATH, LOGIN_PATH, MAIN_PATH} from "../constant";
 import useLoginStore from "../store/login.store";
 
 const Header = () => {
@@ -11,8 +11,8 @@ const Header = () => {
     const mainPage = () => {
         navigate(MAIN_PATH());
     }
-    const goLogin = () => {
-        navigate(LOGIN_PATH());
+    const goPage = (path:string) => {
+        navigate(path);
     }
     return (
         <>
@@ -32,7 +32,11 @@ const Header = () => {
                         <li className="nav-item"><a href="#" className="nav-link">FAQs</a></li>
                         {!loginUser &&
                             <li className="nav-item">
-                                <div className="nav-link pointer" onClick={goLogin}>Login</div>
+                                <div className="nav-link pointer" onClick={() => goPage(LOGIN_PATH())}>Login</div>
+                            </li>}
+                        {loginUser?.role  &&
+                            <li className="nav-item">
+                                <div className="nav-link pointer" onClick={() => goPage(ADMIN_CATEGORY_LIST_PATH())}>Login</div>
                             </li>}
 
                     </ul>

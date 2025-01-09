@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { useCookies } from 'react-cookie';
+import {useCookies} from 'react-cookie';
 import {LOGIN_PATH} from "../constant";
 
 const API_DOMAIN = process.env.REACT_APP_SERVER_DOMAIN + "/api";
@@ -37,9 +37,14 @@ export const useAxiosInterceptor = () => {
                             return;
                         }
                         const refreshToken = cookies.refreshToken;
-                        const response = await axios.post(`${API_DOMAIN}/auth/refresh`, { refreshToken });
+                        const response = await axios.post(`${API_DOMAIN}/auth/refresh`, {refreshToken});
 
-                        const { accessToken, refreshToken: newRefreshToken, accessTokenExpiredMs, refreshTokenExpiredMs } = response.data;
+                        const {
+                            accessToken,
+                            refreshToken: newRefreshToken,
+                            accessTokenExpiredMs,
+                            refreshTokenExpiredMs
+                        } = response.data;
 
                         const now = new Date().getTime();
                         const accessTokenExpires = new Date(now + accessTokenExpiredMs);
@@ -71,8 +76,12 @@ export const useAxiosInterceptor = () => {
 
                         return Promise.reject(refreshError);
                     }
+                } else if (typeof error.response.data === 'string') {
+                    alert(error.response.data);
+                    return;
+                } else {
+                    alert('서버오류');
                 }
-
                 return Promise.reject(error);
             }
         );
